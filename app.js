@@ -80,6 +80,19 @@ app.patch('/api/v1/tours/:id', (req, res) => {
   });
 });
 
+app.delete('/api/v1/tours/:id', (req, res) => {
+  const id = +req.params.id * 1;
+  if (id > tours.length) {
+    res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
 app.listen(PORT, () => {
   console.log('App is running on port 3000');
 });
