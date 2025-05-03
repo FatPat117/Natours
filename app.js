@@ -7,8 +7,13 @@ const userRouter = require('./routes/userRoutes');
 const app = express();
 
 //1) Use middleware
-app.use(morgan('dev'));
-app.use(express.json());
+if (process.env.NODE_ENV === 'development') {
+  const morgan = require('morgan');
+  app.use(morgan('dev'));
+}
+
+app.use(morgan('dev')); // log request
+app.use(express.json()); // req.body
 app.use(express.static(`${__dirname}/public`));
 
 app.use((req, res, next) => {
@@ -16,7 +21,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// 3) ROUTES
+// 3) MIDDLEWARE ROUTES
 
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
