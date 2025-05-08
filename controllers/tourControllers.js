@@ -3,23 +3,34 @@ const Tour = require('../models/tourModel');
 
 exports.getAllTours = async (req, res) => {
   try {
-    // console.log(req.query); // query string
+    // console.log(req.query); // query string from user
 
     // Build a Query
-    // 1) Filtering
+    // 1A) Filtering
 
     const queryObj = { ...req.query };
-    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    const excludedFields = ['page', 'sort', 'limit', 'fields']; // some Fields don't need to the database
     excludedFields.forEach((el) => delete queryObj[el]);
 
-    // 2) Advanced filtering
+    // 1B) Advanced filtering
     // {difficulty:'easy',duration: {$gte: 5}}
     // {difficulty:'easy',duration: {gte: '5'}} // return from postman
 
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-    const query = Tour.find(JSON.parse(queryStr));
+    let query = Tour.find(JSON.parse(queryStr));
+
+    // 2) Sorting
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+
+      query = query.sort(sortBy);
+      // sort('price ratingsAverage') first sort price then sort for ratingsAverage
+    } else {
+      query = query.sort('-createdAt');
+    }
+
     // Execute Query
     const tours = await query;
 
