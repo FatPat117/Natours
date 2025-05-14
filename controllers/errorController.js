@@ -23,6 +23,18 @@ const handleDuplicateFieldsDB = (err) => {
   return new AppError(message, 400);
 };
 
+const handleValidationErrorDB = (err) => {
+  console.log('err:', err);
+  const errmessage = Object.values(err.errors)
+    .map((el) => el.path)
+    .join('. ');
+
+  console.log(errmessage);
+
+  const message = `Invalid input data fields: ${errmessage}`;
+  return new AppError(message, 400);
+};
+
 const sendErrorProduction = (err, res) => {
   // Operational, trusted error : send message to client
   if (err.isOperational) {
@@ -57,6 +69,9 @@ module.exports = (err, req, res, next) => {
     if (error.kind === 'ObjectId' || err.path === '_id')
       error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
+
+    if (error._message === 'Validation failed')
+      error = handleValidationErrorDB(error);
     sendErrorProduction(error, res);
   }
 };
