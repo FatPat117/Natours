@@ -5,7 +5,7 @@ const authController = require('../controllers/authController');
 
 //router
 const router = express.Router();
-const { protect } = authController;
+const { protect, restrictTo } = authController;
 
 const {
   getAllTours,
