@@ -10,7 +10,7 @@ const { signUp, login, protect, forgotPassword, resetPassword } =
 router.route('/signup').post(signUp);
 router.route('/login').post(login);
 router.route('/forgotPassword').post(forgotPassword);
-router.route('/resetPassword').patch(resetPassword);
+router.route('/resetPassword/:token').patch(resetPassword);
 
 const { getAllUsers, createUser, getUser, updateUser, deleteUser } =
   userController;
