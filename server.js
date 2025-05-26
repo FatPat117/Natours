@@ -1,5 +1,8 @@
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+dotenv.config({ path: './config.env' }); // config .env
+// console.log(process.env)
+
+const mongoose = require('mongoose');
 const app = require('./app');
 
 process.on('unhandledRejection', (err) => {
@@ -15,9 +18,6 @@ process.on('uncaughtException', (err) => {
   // server.close(() => process.exit(1));
   process.exit(1);
 });
-
-dotenv.config({ path: './config.env' }); // config .env
-// console.log(process.env)
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
