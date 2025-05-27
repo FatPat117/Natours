@@ -10,6 +10,13 @@ class APIFeatures {
     const queryObj = { ...this.queryString };
     const excludedFields = ['page', 'sort', 'limit', 'fields']; // some Fields don't need to the database
     excludedFields.forEach((el) => delete queryObj[el]);
+
+    // Convert arrays to $in queries
+    Object.keys(queryObj).forEach((key) => {
+      if (Array.isArray(queryObj[key])) {
+        queryObj[key] = { $in: queryObj[key] };
+      }
+    });
     // 1B) Advanced filtering
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
