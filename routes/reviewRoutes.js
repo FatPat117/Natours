@@ -12,4 +12,5 @@ router
   .get(getAllReviews)
   .post(protect, restrictTo('user'), createReview);
 
+router.route('/:id').delete(protect, restrictTo('user'), deleteReview);
 module.exports = router;
