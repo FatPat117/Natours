@@ -2,10 +2,13 @@ const express = require('express');
 const fs = require('fs');
 const tourController = require('../controllers/tourControllers');
 const authController = require('../controllers/authController');
-const reviewController = require('../controllers/reviewController');
+const reviewRouter = require('../routes/reviewRoutes');
 
 //router
 const router = express.Router();
+
+router.use('/:tourId/reviews', reviewRouter);
+
 const { protect, restrictTo } = authController;
 
 const {
@@ -34,8 +37,8 @@ router
 
 const { getAllReviews } = reviewController;
 
-router
-  .route('/:tourId/reviews')
-  .get(getAllReviews)
-  .post(protect, restrictTo('user'), createReview);
-module.exports = router;
+// router
+//   .route('/:tourId/reviews')
+//   .get(getAllReviews)
+//   .post(protect, restrictTo('user'), createReview);
+// module.exports = router;
