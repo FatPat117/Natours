@@ -29,7 +29,9 @@ const {
   deleteUser,
   updateMe,
   deleteMe,
+  getMe,
 } = userController;
+router.route('/me').get(protect, getMe, getUser);
 router.route('/updateMe').patch(protect, updateMe);
 router.route('/deleteMe').delete(protect, deleteMe);
 
