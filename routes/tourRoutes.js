@@ -29,7 +29,7 @@ router
   .route('/')
   .get(tourController.getAllTours)
   .post(
-    authControllerprotect,
+    authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
     tourController.createTour,
   );
@@ -46,9 +46,7 @@ router
     authController.restrictTo('admin', 'lead-guide'),
     tourController.deleteTour,
   );
-
-const { getAllReviews } = reviewController;
-
+module.exports = router;
 // router
 //   .route('/:tourId/reviews')
 //   .get(getAllReviews)

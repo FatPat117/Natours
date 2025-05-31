@@ -22,9 +22,9 @@ app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
-  const morgan = require('morgan');
   app.use(morgan('dev'));
-} // app.use(morgan('dev')); // log request
+}
+// app.use(morgan('dev')); // log request
 
 // Limit requests from same API
 const limiter = rateLimit({

@@ -1,7 +1,9 @@
-import AppError from '../utils/appError';
-import catchAsync from '../utils/catchAsync';
+// handlerFactory.js
+
+const AppError = require('../utils/appError');
+const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
-exports.deleteOne = (Model) => {
+exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const document = await Model.findByIdAndDelete(req.params.id);
 
@@ -13,9 +15,8 @@ exports.deleteOne = (Model) => {
       data: null,
     });
   });
-};
 
-exports.updateOne = (Model) => {
+exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const document = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -33,9 +34,8 @@ exports.updateOne = (Model) => {
       },
     });
   });
-};
 
-exports.createOne = (Model) => {
+exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const document = await Model.create(req.body);
 
@@ -43,9 +43,8 @@ exports.createOne = (Model) => {
       .status(201)
       .json({ status: 'success', data: { data: document } });
   });
-};
 
-exports.getOne = (Model, popOptions) => {
+exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);
@@ -56,12 +55,11 @@ exports.getOne = (Model, popOptions) => {
     }
     return res.status(200).json({
       status: 'success',
-      data: { document },
+      data: { data: document },
     });
   });
-};
 
-exports.getAll = (Model) => {
+exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     // To allow for Nested route Get Reviews on Tour
     let filter = {};
@@ -76,10 +74,9 @@ exports.getAll = (Model) => {
 
     res.status(200).json({
       status: 'success',
-      results: tours.length,
+      results: document.length,
       data: {
         data: document,
       },
     });
   });
-};
