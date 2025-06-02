@@ -76,6 +76,8 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
   }
 };
 
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
+
 reviewSchema.post('save', function () {
   // The this keyword points to current review
   this.constructor.calcAverageRatings(this.tour);
