@@ -170,8 +170,30 @@ tourSchema.post(/^find/, function (docs, next) {
 
 // AGGREGATE MIDDLEWARE
 tourSchema.pre('aggregate', function (next) {
-  // console.log(this.pipeline());
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  // console.1og(this.pipeline());
+
+  // Check if the pipeline already contains a geoJSON-related stage
+  const hasGeoJSONStage = this.pipeline().some((stage) => {
+    // Look for common geoJSON operators within a $match stage
+    if (stage.$match) {
+      return (
+        stage.$match.hasOwnProperty('location') && // Assuming 'location' is your geoJSON field
+        (stage.$match.location.$geoWithin ||
+          stage.$match.location.$geoIntersects ||
+          stage.$match.location.$nearSphere)
+      );
+    }
+    // Also check for the $geoNear stage
+    return stage.$geoNear !== undefined;
+  });
+
+  // If there's NO geoJSON stage, then unshift the secretTour filter
+  // This prevents issues where the $match stage for secretTour might interfere
+  // with the required initial stages for geoJSON operations like $geoNear.
+  if (!hasGeoJSONStage) {
+    this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  }
+
   next();
 });
 const Tour = mongoose.model('Tour', tourSchema);
