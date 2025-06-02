@@ -26,6 +26,12 @@ router
   );
 
 router
+  .route('/tours-within/:distance/center/:latlng/unit/:unit')
+  .get(tourController.getToursWithin);
+// /tours-within/233/center/-40,45/unit/mile C1
+// /tours-distance?distance=233&center=-40,45&unit=mile  C2
+
+router
   .route('/')
   .get(tourController.getAllTours)
   .post(
