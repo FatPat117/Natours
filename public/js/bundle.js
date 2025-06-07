@@ -12806,7 +12806,7 @@ var _leaflet = require("./leaflet.js");
 var _login = require("./login.js");
 // DOM ELEMENT
 var map = document.getElementById('map');
-var form = document.querySelector('.form');
+var loginForm = document.querySelector('.form--login');
 var logOutBtn = document.querySelector('.nav__el--logout');
 // VALUES
 
@@ -12815,8 +12815,8 @@ if (map) {
   var locations = JSON.parse(map.dataset.locations);
   (0, _leaflet.displayMap)(locations);
 }
-if (form) {
-  form.addEventListener('submit', function (e) {
+if (loginForm) {
+  loginForm.addEventListener('submit', function (e) {
     e.preventDefault();
     var email = document.querySelector('#email').value;
     var password = document.querySelector('#password').value;

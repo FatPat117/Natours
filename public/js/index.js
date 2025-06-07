@@ -4,7 +4,7 @@ import { login, logout } from './login.js';
 
 // DOM ELEMENT
 const map = document.getElementById('map');
-const form = document.querySelector('.form');
+const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 // VALUES
 
@@ -14,8 +14,8 @@ if (map) {
   displayMap(locations);
 }
 
-if (form) {
-  form.addEventListener('submit', (e) => {
+if (loginForm) {
+  loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
