@@ -113,34 +113,48 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 // Only for rendered pages, no errors!
-exports.isLoggedIn = catchAsync(async (req, res, next) => {
-  // 1) Getting the token and check if it's there
-  let token;
-  if (req.cookies.jwt) {
-    token = req.cookies.jwt;
+exports.isLoggedIn = async (req, res, next) => {
+  try {
+    // 1) Getting the token and check if it's there
+    let token;
+    if (req.cookies.jwt) {
+      token = req.cookies.jwt;
 
-    // 2) Verification the token
-    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+      // 2) Verification the token
+      const decoded = await promisify(jwt.verify)(
+        token,
+        process.env.JWT_SECRET,
+      );
 
-    // 3) Check if user still exists
-    const freshUser = await User.findById(decoded.id);
-    if (!freshUser) {
+      // 3) Check if user still exists
+      const freshUser = await User.findById(decoded.id);
+      if (!freshUser) {
+        return next();
+      }
+
+      // 4) Check if user changed password after the token was issued
+      if (freshUser.changedPasswordAfter(decoded.iat)) {
+        return next();
+      }
+
+      // THERE IS A LOGGED IN USER
+      // req.user = freshUser; this is for the protected routed not for render page
+
+      res.locals.user = freshUser;
       return next();
     }
-
-    // 4) Check if user changed password after the token was issued
-    if (freshUser.changedPasswordAfter(decoded.iat)) {
-      return next();
-    }
-
-    // THERE IS A LOGGED IN USER
-    // req.user = freshUser; this is for the protected routed not for render page
-
-    res.locals.user = freshUser;
-    return next();
+  } catch (err) {
+    next();
   }
-  next();
-});
+};
+
+exports.logout = (req, res) => {
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({ status: 'success' });
+};
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
