@@ -96,10 +96,10 @@ app.use(
   }),
 );
 
-app.use((req, res, next) => {
-  console.log(req.cookies);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(req.cookies);
+//   next();
+// });
 
 // 3) MIDDLEWARE ROUTES
 app.use('/', viewRouter);

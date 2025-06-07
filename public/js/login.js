@@ -7,8 +7,15 @@ const login = async (email, password) => {
       email,
       password,
     });
+
+    if (response.data.status === 'success') {
+      alert('Logged in successfully');
+      window.setTimeout(() => {
+        location.assign('/');
+      });
+    }
   } catch (err) {
-    console.log(err.response.data);
+    alert(err.response.data.message);
   }
 
   console.log(response);
