@@ -1,12 +1,13 @@
 import '@babel/polyfill';
 import { displayMap } from './leaflet.js';
 import { login, logout } from './login.js';
-import { updateData } from './updateSettings.js';
+import { updateSettings } from './updateSettings.js';
 // DOM ELEMENT
 const map = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
+const userPasswordForm = document.querySelector('.form-user-password');
 // VALUES
 
 // DELEGATION
@@ -35,7 +36,24 @@ if (userDataForm) {
     e.preventDefault();
     const email = document.querySelector('#email').value;
     const name = document.querySelector('#name').value;
-    const photo = document.querySelector('#photo').value;
-    updateData(name, email);
+
+    updateSettings({ name, email }, 'data');
+  });
+}
+
+if (userPasswordForm) {
+  userPasswordForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const passwordCurrent = document.querySelector('#password-current').value;
+    const password = document.querySelector('#password').value;
+    const passwordConfirm = document.querySelector('#password-confirm').value;
+    await updateSettings(
+      { passwordCurrent, password, passwordConfirm },
+      'password',
+    );
+
+    document.querySelector('#password-current').value = '';
+    document.querySelector('#password').value = '';
+    document.querySelector('#password-confirm').value = '';
   });
 }

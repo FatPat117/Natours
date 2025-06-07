@@ -55,7 +55,7 @@ block content
 
         .user-view__form-container
           h2.heading-secondary.ma-bt-md Password change
-          form.form.form-user-settings(method='POST', action='/submit-user-password')
+          form.form.form-user-password(method='POST', action='/submit-user-password')
             .form__group
               label.form__label(for='password-current') Current password
               input#password-current.form__input(type='password', name='passwordCurrent', placeholder='••••••••', required, minlength='8')
