@@ -12622,7 +12622,7 @@ var login = exports.login = /*#__PURE__*/function () {
           if (response.data.status === 'success') {
             (0, _alerts.showAlert)('success', 'Logged in successfully');
             window.setTimeout(function () {
-              location.assign('/');
+              location.assign('/'), 1000;
             });
           }
           _context.n = 3;
@@ -12653,13 +12653,12 @@ var logout = exports.logout = /*#__PURE__*/function () {
           return _axios.default.get('http://127.0.0.1:3000/api/v1/users/logout');
         case 1:
           res = _context2.v;
-          if (res.data.status === 'success') location.reld(true);
+          if (res.data.status === 'success') location.reload(true);
           _context2.n = 3;
           break;
         case 2:
           _context2.p = 2;
           _t2 = _context2.v;
-          oa;
           (0, _alerts.showAlert)('error', 'Error Logging out! Try agian.');
         case 3:
           return _context2.a(2);

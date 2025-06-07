@@ -12,7 +12,7 @@ export const login = async (email, password) => {
       showAlert('success', 'Logged in successfully');
 
       window.setTimeout(() => {
-        location.assign('/');
+        location.assign('/'), 1000;
       });
     }
   } catch (err) {
@@ -25,9 +25,8 @@ export const login = async (email, password) => {
 export const logout = async () => {
   try {
     const res = await axios.get('http://127.0.0.1:3000/api/v1/users/logout');
-    if (res.data.status === 'success') location.reld(true);
+    if (res.data.status === 'success') location.reload(true);
   } catch (err) {
-    oa;
     showAlert('error', 'Error Logging out! Try agian.');
   }
 };
