@@ -28,8 +28,12 @@ const styleSrcUrls = [
   'https://tile.openstreetmap.org',
   'https://fonts.googleapis.com/',
 ];
-const connectSrcUrls = ['https://unpkg.com', 'https://tile.openstreetmap.org'];
+let connectSrcUrls = ['https://unpkg.com', 'https://tile.openstreetmap.org'];
 const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
+
+if (process.env.NODE_ENV === 'development') {
+  connectSrcUrls.push('ws:');
+}
 
 //1) Use global middleware`
 
