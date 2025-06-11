@@ -36,7 +36,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
   res.cookie('jwt', token, cookieOptions);
 
   // Remove the password from the output
-  user.password = undefined;
+  newUser.password = undefined;
   res.status(201).json({
     status: 'success',
     token,
