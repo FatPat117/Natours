@@ -34,10 +34,15 @@ if (logOutBtn) {
 if (userDataForm) {
   userDataForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = document.querySelector('#email').value;
-    const name = document.querySelector('#name').value;
+    const form = new FormData();
+    form.append('name', document.querySelector('#name').value);
+    form.append('email', document.querySelector('#email').value);
+    form.append('photo', document.querySelector('#photo').files[0]);
 
-    updateSettings({ name, email }, 'data');
+    // const email = document.querySelector('#email').value;
+    // const name = document.querySelector('#name').value;
+
+    updateSettings(form, 'data');
   });
 }
 
