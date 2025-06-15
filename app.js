@@ -24,6 +24,7 @@ const scriptSrcUrls = [
   'https://tile.openstreetmap.org',
   'https://cdnjs.cloudflare.com',
   'https://cdn.jsdelivr.net',
+  'https://js.stripe.com',
 ];
 const styleSrcUrls = [
   'https://unpkg.com/',
@@ -44,7 +45,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: [],
+      defaultSrc: ["'self'"],
       connectSrc: ["'self'", ...connectSrcUrls],
       scriptSrc: ["'self'", ...scriptSrcUrls],
       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
@@ -52,6 +53,7 @@ app.use(
       objectSrc: [],
       imgSrc: ["'self'", 'blob:', 'data:', 'https:'],
       fontSrc: ["'self'", ...fontSrcUrls],
+      frameSrc: ["'self'", 'https://js.stripe.com'],
     },
   }),
 );
